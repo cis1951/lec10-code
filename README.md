@@ -131,3 +131,89 @@ canvas.delegate = context.coordinator
 ```
 
 Go ahead and run the app again - the **Save to Photos** button should now work!
+
+## Step 4: Add a tool picker
+
+For our final step, we'll add a tool picker so we can change the pen and color we're using. PencilKit provides a class to do this - it's called `PKToolPicker`.
+
+To use it, we'll add it as an `@State` on `DrawingCanvas`:
+
+```swift
+@State var toolPicker = PKToolPicker()
+```
+
+Then we'll wire it up in `makeUIView`:
+
+```swift
+toolPicker.setVisible(true, forFirstResponder: uiView)
+toolPicker.addObserver(uiView)
+```
+
+We've wired up our PKToolPicker, but if we take a close read at the documentation, you might notice that the tool picker only shows up if the drawing view is focused. In UIKit, the currently focused view is called the **first responder**, and views can either become or resign the first responder when needed.
+
+We'll model this in SwiftUI using the `isFocused` binding we already have. First, in `updateUIView`, we'll need to tell the view to focus or unfocus itself depending on what `isFocused` is:
+
+```swift
+func updateUIView(_ uiView: CustomCanvasView, context: Context) {
+    context.coordinator.ignoreChanges = true
+    defer { context.coordinator.ignoreChanges = false }
+    
+    if uiView.drawing != drawing {
+        uiView.drawing = drawing
+    }
+    
+    if isFocused {
+        _ = uiView.becomeFirstResponder()
+    } else {
+        _ = uiView.resignFirstResponder()
+    }
+}
+```
+
+But that's only part of the story - we'll need the view to tell us when it gets unfocused from an outside source. There are several ways to do this. In our case, we'll make a subclass of PKCanvasView so that we can customize its behavior when it focuses and unfocuses:
+
+
+```swift
+class CustomCanvasView: PKCanvasView {
+    weak var coordinator: DrawingCanvas.Coordinator?
+    
+    override func becomeFirstResponder() -> Bool {
+        if let coordinator, !coordinator.ignoreChanges {
+            coordinator.parent.isFocused = true
+        }
+        
+        return super.becomeFirstResponder()
+    }
+    
+    override func resignFirstResponder() -> Bool {
+        if let coordinator, !coordinator.ignoreChanges {
+            coordinator.parent.isFocused = false
+        }
+        
+        return super.resignFirstResponder()
+    }
+}
+```
+
+Now, we'll swap out PKCanvasView for CustomCanvasView. Replace all instances of `PKCanvasView` with `CustomCanvasView`, then modify `makeUIView` so that it sets the `coordinator` property we just added:
+
+```swift
+func makeUIView(context: Context) -> CustomCanvasView {
+    let uiView = CustomCanvasView()
+    
+    toolPicker.setVisible(true, forFirstResponder: uiView)
+    toolPicker.addObserver(uiView)
+    
+    uiView.delegate = context.coordinator
+    uiView.coordinator = context.coordinator
+    uiView.backgroundColor = .clear
+    
+    updateUIView(uiView, context: context)
+    
+    return uiView
+}
+```
+
+As a bonus, we've also modified `makeUIView` so that it calls `updateUIView` to set the drawing and the focus state. This helps us get rid of duplicate code, and it makes sure that the two methods behave in the same way.
+
+And that's all! Try running the app now - you should get a floating tool picker!
