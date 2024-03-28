@@ -1,18 +1,12 @@
 import SwiftUI
 import WebKit
 
-struct WebView: UIViewRepresentable {
+struct WebView: View {
     var url: URL
     
-    func makeUIView(context: Context) -> WKWebView {
-        let uiView = WKWebView()
-        uiView.load(URLRequest(url: url))
-        return uiView
-    }
-    
-    func updateUIView(_ uiView: WKWebView, context: Context) {
-        if uiView.url != url {
-            uiView.load(URLRequest(url: url))
-        }
+    var body: some View {
+        Text("TODO")
+            .background(.white)
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
 }
