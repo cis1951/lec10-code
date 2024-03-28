@@ -45,6 +45,7 @@ struct DrawingCanvas: UIViewRepresentable {
         let uiView = CustomCanvasView()
         
         toolPicker.setVisible(true, forFirstResponder: uiView)
+        toolPicker.addObserver(uiView)
         
         uiView.delegate = context.coordinator
         uiView.coordinator = context.coordinator
@@ -59,7 +60,9 @@ struct DrawingCanvas: UIViewRepresentable {
         context.coordinator.ignoreChanges = true
         defer { context.coordinator.ignoreChanges = false }
         
-        uiView.drawing = drawing
+        if uiView.drawing != drawing {
+            uiView.drawing = drawing
+        }
         
         if isFocused {
             _ = uiView.becomeFirstResponder()
