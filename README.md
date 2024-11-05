@@ -147,6 +147,7 @@ Then we'll wire it up in `makeUIView`:
 ```swift
 toolPicker.setVisible(true, forFirstResponder: uiView)
 toolPicker.addObserver(uiView)
+toolPicker.colorUserInterfaceStyle = uiView.traitCollection.userInterfaceStyle
 ```
 
 We've wired up our PKToolPicker, but if we take a close read at the documentation, you might notice that the tool picker only shows up if the drawing view is focused. In UIKit, the currently focused view is called the **first responder**, and views can either become or resign the first responder when needed.
