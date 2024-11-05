@@ -60,6 +60,8 @@ struct DrawingCanvas: UIViewRepresentable {
         context.coordinator.ignoreChanges = true
         defer { context.coordinator.ignoreChanges = false }
         
+        toolPicker.colorUserInterfaceStyle = uiView.traitCollection.userInterfaceStyle
+        
         if uiView.drawing != drawing {
             uiView.drawing = drawing
         }
