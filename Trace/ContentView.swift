@@ -11,31 +11,28 @@ struct ContentView: View {
     
     var body: some View {
         VStack {
-            VStack {
-                HStack {
-                    Picker("Mode", selection: $isDrawing) {
-                        Text("Interact").tag(false)
-                        Text("Draw").tag(true)
-                    }
-                    .pickerStyle(.segmented)
-                    
-                    Button {
-                        let image = drawing.image(from: drawing.bounds, scale: 2)
-                        UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil)
-                    } label: {
-                        Label("Save to Photos", systemImage: "square.and.arrow.down")
+            HStack {
+                TextField("URL", text: $urlString)
+                    .textFieldStyle(.roundedBorder)
+                
+                Button("Go") {
+                    if let parsedURL = URL(string: urlString) {
+                        url = parsedURL
                     }
                 }
-                                
-                HStack {
-                    TextField("URL", text: $urlString)
-                    
-                    Button("Go") {
-                        if let parsedURL = URL(string: urlString) {
-                            url = parsedURL
-                        }
-                    }
-                    .buttonStyle(.borderedProminent)
+                .buttonStyle(.borderedProminent)
+            }
+            
+            HStack {
+                Picker("Mode", selection: $isDrawing) {
+                    Label("Interact", systemImage: "cursorarrow").tag(false)
+                    Label("Draw", systemImage: "pencil.and.scribble").tag(true)
+                }
+                .pickerStyle(.segmented)
+                
+                Button("Save to Photos", systemImage: "square.and.arrow.down") {
+                    let image = drawing.image(from: drawing.bounds, scale: 2)
+                    UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil)
                 }
             }
             
