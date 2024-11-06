@@ -39,8 +39,11 @@ struct ContentView: View {
                 Spacer()
                 
                 Button("Save", systemImage: "square.and.arrow.down") {
-                    let image = drawing.image(from: drawing.bounds, scale: 2)
-                    UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil)
+                    let traitCollection = UITraitCollection(userInterfaceStyle: .light)
+                    traitCollection.performAsCurrent {
+                        let image = drawing.image(from: drawing.bounds, scale: 2)
+                        UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil)
+                    }
                 }
                 .buttonStyle(CustomButtonStyle())
             }
