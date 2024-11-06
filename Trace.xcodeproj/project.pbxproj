@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		894E2BE22CDAE5BD006BF0C8 /* CustomButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 894E2BE12CDAE5B6006BF0C8 /* CustomButtonStyle.swift */; };
 		89F219DD2BB6188600357324 /* TraceApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89F219DC2BB6188600357324 /* TraceApp.swift */; };
 		89F219DF2BB6188600357324 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89F219DE2BB6188600357324 /* ContentView.swift */; };
 		89F219E12BB6188700357324 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 89F219E02BB6188700357324 /* Assets.xcassets */; };
@@ -16,6 +17,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		894E2BE12CDAE5B6006BF0C8 /* CustomButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomButtonStyle.swift; sourceTree = "<group>"; };
 		89BFDE222CDAD8610062B2DB /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		89F219D92BB6188600357324 /* Trace.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Trace.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		89F219DC2BB6188600357324 /* TraceApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TraceApp.swift; sourceTree = "<group>"; };
@@ -59,6 +61,7 @@
 			children = (
 				89F219DC2BB6188600357324 /* TraceApp.swift */,
 				89F219DE2BB6188600357324 /* ContentView.swift */,
+				894E2BE12CDAE5B6006BF0C8 /* CustomButtonStyle.swift */,
 				89F219EA2BB6192800357324 /* DrawingCanvas.swift */,
 				89F219EE2BB61C4200357324 /* WebView.swift */,
 				89F219E02BB6188700357324 /* Assets.xcassets */,
@@ -147,6 +150,7 @@
 			files = (
 				89F219DF2BB6188600357324 /* ContentView.swift in Sources */,
 				89F219EF2BB61C4200357324 /* WebView.swift in Sources */,
+				894E2BE22CDAE5BD006BF0C8 /* CustomButtonStyle.swift in Sources */,
 				89F219DD2BB6188600357324 /* TraceApp.swift in Sources */,
 				89F219EB2BB6192800357324 /* DrawingCanvas.swift in Sources */,
 			);

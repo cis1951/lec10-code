@@ -24,16 +24,25 @@ struct ContentView: View {
             }
             
             HStack {
-                Picker("Mode", selection: $isDrawing) {
-                    Label("Interact", systemImage: "cursorarrow").tag(false)
-                    Label("Draw", systemImage: "pencil.and.scribble").tag(true)
+                Button("Interact", systemImage: "cursorarrow") {
+                    isDrawing = false
                 }
-                .pickerStyle(.segmented)
+                .buttonStyle(CustomButtonStyle(isActive: !isDrawing))
+                .accessibilityAddTraits(isDrawing ? [] : .isSelected)
                 
-                Button("Save to Photos", systemImage: "square.and.arrow.down") {
+                Button("Draw", systemImage: "pencil.and.scribble") {
+                    isDrawing = true
+                }
+                .buttonStyle(CustomButtonStyle(isActive: isDrawing))
+                .accessibilityAddTraits(isDrawing ? .isSelected : [])
+                
+                Spacer()
+                
+                Button("Save", systemImage: "square.and.arrow.down") {
                     let image = drawing.image(from: drawing.bounds, scale: 2)
                     UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil)
                 }
+                .buttonStyle(CustomButtonStyle())
             }
             
             ZStack {
