@@ -73,6 +73,7 @@ func makeUIView(context: Context) -> PKCanvasView {
     canvas.drawing = drawing
     canvas.tool = PKInkingTool(.pen, color: .black, width: 15)
     canvas.backgroundColor = .clear
+    canvas.drawingPolicy = .anyInput
     return canvas
 }
 ```
@@ -145,9 +146,9 @@ To use it, we'll add it as an `@State` on `DrawingCanvas`:
 Then we'll wire it up in `makeUIView`:
 
 ```swift
-toolPicker.setVisible(true, forFirstResponder: uiView)
-toolPicker.addObserver(uiView)
-toolPicker.colorUserInterfaceStyle = uiView.traitCollection.userInterfaceStyle
+toolPicker.setVisible(true, forFirstResponder: canvas)
+toolPicker.addObserver(canvas)
+toolPicker.colorUserInterfaceStyle = canvas.traitCollection.userInterfaceStyle
 ```
 
 We've wired up our PKToolPicker, but if we take a close read at the documentation, you might notice that the tool picker only shows up if the drawing view is focused. In UIKit, the currently focused view is called the **first responder**, and views can either become or resign the first responder when needed.
@@ -200,16 +201,17 @@ Now, we'll swap out PKCanvasView for CustomCanvasView. Replace all instances of 
 
 ```swift
 func makeUIView(context: Context) -> CustomCanvasView {
-    let uiView = CustomCanvasView()
+    let canvas = CustomCanvasView()
     
-    toolPicker.setVisible(true, forFirstResponder: uiView)
+    toolPicker.setVisible(true, forFirstResponder: canvas)
     toolPicker.addObserver(uiView)
     
-    uiView.delegate = context.coordinator
-    uiView.coordinator = context.coordinator
-    uiView.backgroundColor = .clear
+    canvas.delegate = context.coordinator
+    canvas.coordinator = context.coordinator
+    canvas.backgroundColor = .clear
+    canvas.drawingPolicy = .anyInput
     
-    updateUIView(uiView, context: context)
+    updateUIView(canvas, context: context)
     
     return uiView
 }
